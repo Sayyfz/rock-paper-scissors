@@ -1,38 +1,167 @@
-.App {
-  text-align: center;
+
+body {
+    background: var(--clr-bg);
+    text-transform: uppercase;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.page {
+    display: flex;
+    flex-direction: column;
+    padding: 3em 1em;
+    --icon-length: 9.375em;
+    
+}
+.title {
+    border: 4px solid var(--clr-header);
+    border-radius: 10px;
+    padding: 1em 1.5em;
+    display: flex;
+    align-self: center;
+}
+.names {
+    color: white;
+    line-height: 0.2;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.score {
+    line-height: 0.2;
+    background-color: white;
+    border-radius: 10px;
+    text-align: center;
+    margin-left: auto;
+    width: 7rem;
+    padding: .5rem 1.5rem;
+    color: var(--clr-score);
+}
+.score h3 {
+    font-size: 14px;
+}
+.score h1 {
+    font-size: 42px;
+    color: var(--clr-dark);
+}
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    margin: 2em;
+    align-self: center;
+}
+.game-background {
+    margin-top: calc( var(--icon-length)/ 2);
+}
+.row {
+    display:flex;
+    width: 50%;
+    align-items: center;  
+    justify-content: center; 
+    z-index: 1;
+}
+.game .row:nth-child(2) {
+    display: flex;
+    justify-content: space-between;
+}
+.game .row:nth-child(3) {
+    margin-top: 5rem;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.icon {
+    background-color: white;
+    border-radius: 50%;
+    width: var(--icon-length);
+    height:  var(--icon-length);
+    display: flex;
+    cursor: pointer;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    transition: .2s ;
+}
+.icon:hover {
+    bottom: 5px;
+    left: 5px;
 }
 
-.App-link {
-  color: #61dafb;
+.icon svg {
+    margin: auto;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.game .game-background {
+    position: absolute;
+}
+.game-background svg {
+    /* width: ; */
+
+}
+.rules {
+    background-color: transparent;
+    color: white;
+    border: 2px solid var(--clr-header);
+    border-radius: 10px;
+    text-transform: uppercase;
+
+    bottom: 2rem;
+    right: 2rem;
+    max-width: 8rem;
+    padding: .75em 2.5em;
+    
+    position: absolute;
+}
+
+#paper {
+    border: 15px solid blue;
+}
+
+#rock {
+    border: 15px solid red;
+}
+
+#scissors {
+    border: 15px solid yellow;
+}
+
+@media(max-width: 400px) {
+    .page {
+        padding: 0em 0.5em ;
+        justify-content: space-around;
+        height: 100vh;
+    }
+    .title {
+        border: 4px solid var(--clr-header);
+        border-radius: 10px;
+        padding: 1em;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        align-self: center;
+        
+    }
+    
+    .score {
+        line-height: 0;
+        background-color: white;
+        width: 6rem;
+        padding: .5rem 1em;
+    }
+    .names {
+        padding-left: .5em;
+    }
+    .game {
+        margin-bottom: 2.5rem;
+    }
+    .row {
+        width: 100%!important;
+    }
+    .rules {
+        position:inherit;
+        align-self: center;
+    }
+    
+}
+
+@media(max-width: 768px) {
+    .row {
+        width: 70vmin;
+    }
 }
