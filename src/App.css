@@ -70,9 +70,14 @@ body {
     font-size: 42px;
 }
 .game .result-markup button {
+    cursor: pointer;
     font-weight: 700;
     padding: 1em 4em;
     border-radius: 10px;
+    transition: 0.3s ease;
+}
+.game .result-markup button:hover {
+    background-color: gray;
 }
 .game .evaluation-title {
     text-align: center;
@@ -106,7 +111,7 @@ body {
     position: relative;
     bottom: 0;
     left: 0;
-    transition: .2s ;
+    transition: .35s ease;
 }
 .icon:hover {
     bottom: 5px;
@@ -151,6 +156,9 @@ body {
     border: 15px solid yellow;
 }
 
+#computer-hand {
+    background-color: rgba(0, 0, 0, 0.164);
+}
 @media(max-width: 400px) {
     .page {
         padding: 0em 0.5em ;

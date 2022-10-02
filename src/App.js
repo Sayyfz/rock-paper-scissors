@@ -6,8 +6,15 @@ import {Rock, Paper, Scissors} from './components-svg/GameIcons'
 
 function App() {
 
-  const [score, setScore] = useState(12);
+  const CONTEST_DELAY_RESULT = 1500
+
+  const gamePhase = {
+    SELECTION_PHASE: 1,
+    EVALUATION_PHASE: 2,
+  }
+  const [score, setScore] = useState(0);
   const [resultMarkup, setResultMarkup] = useState(<></>)
+  const [currentPhase, setCurrentPhase] = useState(gamePhase.SELECTION_PHASE);
   const playerHand = useRef({});
   const computerHand = useRef({})
   
@@ -32,13 +39,8 @@ function App() {
     'ROCK': 'PAPER',
   }
 
-  const gamePhase = {
-    SELECTION_PHASE: 1,
-    EVALUATION_PHASE: 2,
-    ENDING_PHASE: 3,
-  }
+ 
 
-  const [currentPhase, setCurrentPhase] = useState(gamePhase.SELECTION_PHASE);
 
   const getComputerSelection = () => {
     const index = Math.floor(Math.random() * 2)
@@ -52,13 +54,21 @@ function App() {
   }
 
   const loadResult = (result) => {
+    if(result === '')
+      return <></>
+
     return (
       <>
         <h1>{result}</h1>
-        <button>PLAY AGAIN</button>
+        <button onClick={() => {setCurrentPhase(gamePhase.SELECTION_PHASE); resetGame()}}>PLAY AGAIN</button>
       </>
       
     )
+  }
+
+  const resetGame = () => {
+    playerHand.current = {}
+    computerHand.current = {}
   }
 
   const evaluateSelection = (playerSelection, computerSelection) => {
@@ -67,19 +77,23 @@ function App() {
     setCurrentPhase(gamePhase.EVALUATION_PHASE)
     
     playerHand.current = playerSelection;
-    computerHand.current = computerSelection;
-    console.log(opposites[playerSelection.name])
+    setResultMarkup(loadResult(''))
+    setTimeout(() => {
+      computerHand.current = computerSelection;
 
-    if(computerSelection.name === opposites[playerSelection.name]) {
-      setResultMarkup(loadResult("YOU LOSE"))
-    }
-
-    else if (playerSelection.name === opposites[computerSelection.name]) {
-      setResultMarkup(loadResult("YOU WIN"))
-    }
-    else {
-      setResultMarkup(loadResult("DRAW"))
-    }
+      if(computerSelection.name === opposites[playerSelection.name]) {
+        setResultMarkup(loadResult("YOU LOSE"))
+        score > 0 && setScore(score - 1)
+      }
+  
+      else if (playerSelection.name === opposites[computerSelection.name]) {
+        setResultMarkup(loadResult("YOU WIN"))
+        setScore(score + 1)
+      }
+      else {
+        setResultMarkup(loadResult("DRAW"))
+      }
+    },CONTEST_DELAY_RESULT)
   }
 
 
@@ -132,11 +146,14 @@ function App() {
                 <p className="evaluation-title">
                   The House Picked
                 </p>
-                <div className="icon" id={hands[computerHand.current.name].name.toLowerCase()}>
+                {
+                  <div className="icon" id={computerHand.current.name ? hands[computerHand.current.name].name.toLowerCase() : 'computer-hand'}>
                   {
+                    computerHand.current.name && 
                     hands[computerHand.current.name].markup
                   }
                 </div>
+                }
               </div>
             </div>
             
