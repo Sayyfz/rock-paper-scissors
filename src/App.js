@@ -7,7 +7,9 @@ import {Rock, Paper, Scissors} from './components-svg/GameIcons'
 function App() {
 
   const [score, setScore] = useState(12);
+  const [resultMarkup, setResultMarkup] = useState(<></>)
   const playerHand = useRef({});
+  const computerHand = useRef({})
   
   const hands = {
     PAPER: {
@@ -23,7 +25,6 @@ function App() {
       markup: <Scissors />
     }
   }
-  const [computerSelection, setComputerSelection] = useState(hands.PAPER)
   
   const opposites = {
     'PAPER': 'SCISSORS',
@@ -39,23 +40,45 @@ function App() {
 
   const [currentPhase, setCurrentPhase] = useState(gamePhase.SELECTION_PHASE);
 
-  const evaluateSelection = (playerSelection) => {
+  const getComputerSelection = () => {
+    const index = Math.floor(Math.random() * 2)
+
+    if(index === 0) 
+      return hands.PAPER
+    else if(index === 1) 
+      return hands.ROCK
+    else if(index === 2)
+      return hands.SCISSORS
+  }
+
+  const loadResult = (result) => {
+    return (
+      <>
+        <h1>{result}</h1>
+        <button>PLAY AGAIN</button>
+      </>
+      
+    )
+  }
+
+  const evaluateSelection = (playerSelection, computerSelection) => {
 
     
-      playerHand.current = playerSelection;
-      setCurrentPhase(gamePhase.EVALUATION_PHASE)
-      
+    setCurrentPhase(gamePhase.EVALUATION_PHASE)
     
+    playerHand.current = playerSelection;
+    computerHand.current = computerSelection;
+    console.log(opposites[playerSelection.name])
 
     if(computerSelection.name === opposites[playerSelection.name]) {
-      console.log('computer wins')
+      setResultMarkup(loadResult("YOU LOSE"))
     }
 
     else if (playerSelection.name === opposites[computerSelection.name]) {
-      console.log('player wins')
+      setResultMarkup(loadResult("YOU WIN"))
     }
     else {
-      // console.log('')
+      setResultMarkup(loadResult("DRAW"))
     }
   }
 
@@ -70,15 +93,15 @@ function App() {
               </div>
 
               <div className="row">
-                <div className="icon" id='paper' onClick={() => evaluateSelection(hands.PAPER)}>
+                <div className="icon" id='paper' onClick={() => evaluateSelection(hands.PAPER, getComputerSelection())}>
                   <Paper /> 
                 </div>
-                <div className="icon" id='scissors' onClick={() => evaluateSelection(hands.SCISSORS)}>
+                <div className="icon" id='scissors' onClick={() => evaluateSelection(hands.SCISSORS, getComputerSelection())}>
                   <Scissors />
                 </div>
               </div>
               <div className='row'>
-                <div className="icon" id='rock'  onClick={() => evaluateSelection(hands.ROCK)}>
+                <div className="icon" id='rock'  onClick={() => evaluateSelection(hands.ROCK, getComputerSelection())}>
                   <Rock />
                 </div>
               </div>
@@ -89,12 +112,34 @@ function App() {
       else if (currentPhase === gamePhase.EVALUATION_PHASE) {
         return (
           <div className="game container">
-            <div className="icon" id={hands[playerHand.current.name].name.toLowerCase()}>
-              {
-                hands[playerHand.current.name].markup
-                // console.log(hands[playerHand.current.name].markup)
-              }          
+            <div className="evaluation-row">
+              <div className="col">
+                <p className="evaluation-title">
+                  You Picked
+                </p>
+                <div className="icon" id={hands[playerHand.current.name].name.toLowerCase()}>
+                  {
+                    hands[playerHand.current.name].markup
+                  }
+                </div>
+              </div>
+              
+              <div className="col result-markup">
+                {resultMarkup}
+              </div>
+
+              <div className="col">
+                <p className="evaluation-title">
+                  The House Picked
+                </p>
+                <div className="icon" id={hands[computerHand.current.name].name.toLowerCase()}>
+                  {
+                    hands[computerHand.current.name].markup
+                  }
+                </div>
+              </div>
             </div>
+            
           </div>
         )
       }
