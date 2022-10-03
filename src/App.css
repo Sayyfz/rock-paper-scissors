@@ -136,12 +136,18 @@ body {
     border-radius: 10px;
     text-transform: uppercase;
 
+    cursor: pointer;
     bottom: 2rem;
     right: 2rem;
     max-width: 8rem;
     padding: .75em 2.5em;
     
     position: absolute;
+    transition: 1s ease;
+}
+.rules:hover {
+    background-color: white;
+    color: black;
 }
 
 #paper {
@@ -159,6 +165,56 @@ body {
 #computer-hand {
     background-color: rgba(0, 0, 0, 0.164);
 }
+.rules-overlay {
+    width: 100vw;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.575);
+    bottom: 0;
+    top: 0;
+    right: 0;
+    left: 0;
+    position: absolute;
+    z-index: 100;
+    display: flex;
+}
+.rules-overlay > div {
+    width: fit-content;
+    height: fit-content;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: .75em 2em;
+    margin: auto;
+}
+.rules-overlay div h2 {
+}
+.rules-overlay .row {
+    margin-bottom: 1.5em;
+    width: 100%;
+
+}
+.rules-overlay .overlay-container .row button {
+    background-color: transparent;
+    cursor: pointer;
+    border: none;
+    margin-left: auto;
+    padding: .5em;
+    border-radius: 10px;
+    transition: .5s ease;
+
+}
+.rules-overlay .overlay-container .row button:hover { 
+    background-color: rgba(128, 128, 128, 0.479);
+}
+
+.rules-overlay .overlay-container > svg{
+    margin-bottom: 1em;
+}
+.rules-overlay svg {
+    /* margin: auto; */
+}
+
 @media(max-width: 400px) {
     .page {
         padding: 0em 0.5em ;
@@ -207,6 +263,7 @@ body {
         display:flex;
         width: 100%;
         justify-content: space-around;
+        flex-wrap: wrap;
         color: white;
     }
     .game .col {
@@ -214,9 +271,11 @@ body {
     }
     .game .result-markup {
         align-self: center;
+        margin-top: 40px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        order: 3;
     }
     .game .result-markup h1 {
         text-align: center;

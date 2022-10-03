@@ -3,6 +3,8 @@ import './App.css';
 import { useState, useRef } from 'react'
 import Triangle from './components-svg/Triangle';
 import {Rock, Paper, Scissors} from './components-svg/GameIcons'
+import Rules from './components-svg/Rules'
+import Close from './components-svg/Close';
 
 function App() {
 
@@ -96,6 +98,17 @@ function App() {
     },CONTEST_DELAY_RESULT)
   }
 
+  const toggleRules = (show) => {
+    
+    if(show) {
+      document.getElementById('rules').style.display = 'flex'
+    }
+    else {
+      document.getElementById('rules').style.display = 'none'
+    }
+
+  }
+
 
   const loadGame = () => {
       if(currentPhase === gamePhase.SELECTION_PHASE) {
@@ -183,8 +196,20 @@ function App() {
           {
             loadGame()
           }
-        
-        <button className='rules' type='button' onClick={() => {}}>Rules</button>
+
+        <dialog className="rules-overlay" id='rules'>
+          <div className='overlay-container'>
+            <div className="row">
+              <h2>RULES</h2>
+              <button type='button' onClick={() => {toggleRules(false)}}>
+                <Close />
+              </button>
+            </div>
+            <Rules />
+          </div>
+        </dialog>
+
+        <button className='rules' type='button' onClick={() => toggleRules(true)}> Rules </button>
       </div>
     </>
   );
